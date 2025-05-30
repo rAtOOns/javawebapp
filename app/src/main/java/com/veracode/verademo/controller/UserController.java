@@ -362,16 +362,16 @@ public class UserController {
 			String mysqlCurrentDateTime = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
 					.format(Calendar.getInstance().getTime());
 			StringBuilder query = new StringBuilder();
-			query.append("insert into users (username, password, created_at, real_name, blab_name) values(");
-			query.append("'" + username + "',");
-			query.append("'" + md5(password) + "',");
-			query.append("'" + mysqlCurrentDateTime + "',");
-			query.append("'" + realName + "',");
-			query.append("'" + blabName + "'");
-			query.append(");");
+			String insertQuery = "insert into users (username, password, created_at, real_name, blab_name) values(?,?,?,?,?)";
+			PreparedStatement preparedStatement = connect.prepareStatement(insertQuery);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, md5(password));
+			preparedStatement.setString(3, mysqlCurrentDateTime);
+			preparedStatement.setString(4, realName);
+			preparedStatement.setString(5, blabName);
 
-			sqlStatement = connect.createStatement();
-			sqlStatement.execute(query.toString());
+			preparedStatement.execute();
+			preparedStatement.close();
 			logger.info(query.toString());
 			/* END EXAMPLE VULNERABILITY */
 
