@@ -106,7 +106,7 @@ public class User implements Serializable {
 		    ret = DatatypeConverter.printHexBinary(digest);
 		}
 		catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			// Exception handling removed
 		}
 		
 		return ret;
